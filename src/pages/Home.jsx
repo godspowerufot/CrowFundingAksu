@@ -3,8 +3,9 @@ import { useStateContext } from "../context";
 import { DisplayCampaigns } from "../component";
 export const Home = () => {
   const [isLoading, setisLoading] = useState(false);
-  const [campaigns, setcampaigns] = useState([]);
   const { address, contract, getCampaigns } = useStateContext();
+
+  const [campaigns, setcampaigns] = useState([]);
   //the fetchallcampaigns is an async function that fetch another function call getcampaigns which fetches all the campaigns in the smart contract
   const fetchAllCampaigns = async () => {
     setisLoading(true);
@@ -18,7 +19,7 @@ export const Home = () => {
   useEffect(() => {
     contract && fetchAllCampaigns();
   }, [address, contract]);
-console.log("this is the home,", campaigns)
+  console.log("this is the home,", campaigns);
   return (
     <div>
       <DisplayCampaigns

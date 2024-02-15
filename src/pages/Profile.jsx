@@ -1,5 +1,31 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
+import { useStateContext } from "../context";
+import { DisplayCampaigns } from "../component";
 export const Profile = () => {
-  return <div>Profile</div>;
+  const [isLoading, setisLoading] = useState(false);
+  const [campaigns, setcampaigns] = useState([]);
+  const { address, contract, getUserCampaigns } = useStateContext();
+  //the fetchallcampaigns is an async function that fetch another function call getcampaigns which fetches all the campaigns in the smart contract
+  const fetchAllCampaigns = async () => {
+    setisLoading(true);
+    //data being fetch
+    const data = await getUserCampaigns();
+    setcampaigns(data);
+    //update the state of the campaign
+    setisLoading(false);
+  };
+  //Using the useeffect because am fetching an external function from thirdweb
+  useEffect(() => {
+    contract && fetchAllCampaigns();
+  }, [address, contract]);
+  console.log("this is the  all campaign relating to the user,", campaigns);
+  return (
+    <div>
+      <DisplayCampaigns
+        title="Your Campaigns"
+        isLoading={isLoading}
+        campaigns={campaigns}
+      />
+    </div>
+  );
 };

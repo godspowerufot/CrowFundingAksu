@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { ThemeSwitcher } from "./ThemeSwitcher.jsx";
 import { logo, sun } from "../assets";
 import { navlinks } from "../constants";
 
@@ -73,7 +73,7 @@ export const SideBar = () => {
               />
             ))}
           </div>
-          <Icon styles="bg-[#1c1c24] shadow-secondary" imgUrl={sun} />
+          <ThemeSwitcher />
         </div>
       )}
     </div>
