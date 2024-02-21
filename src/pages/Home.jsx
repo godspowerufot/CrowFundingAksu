@@ -15,6 +15,7 @@ export const Home = () => {
     //update the state of the campaign
     setisLoading(false);
   };
+
   //Using the useeffect because am fetching an external function from thirdweb
   useEffect(() => {
     contract && fetchAllCampaigns();

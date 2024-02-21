@@ -8,10 +8,9 @@ const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
   const address = useAddress();
-  const [totalDonation, setTotalDonation] = useState(0);
 
   const { contract, isLoading } = useContract(
-    "0xcD388959AdE23191542FB9e2A73cd96420251DB5"
+    "0x8fc029BE36FCB6ab78b52F036f528F27c9Dc5792"
   );
   const { mutateAsync: createCampaign } = useContractWrite(
     contract,
@@ -62,9 +61,10 @@ export const StateContextProvider = ({ children }) => {
       description: campaign.description,
       target: ethers.utils.formatEther(campaign.target.toString()),
       deadline: campaign.deadline.toNumber(),
-      amountCollected: parseFloat(
-        ethers.utils.formatEther(campaign.amountCollected.toNumber())
+      amountCollected: ethers.utils.formatEther(
+        campaign.amountCollected.toString()
       ),
+
       image: campaign.image,
       pId: i,
     }));

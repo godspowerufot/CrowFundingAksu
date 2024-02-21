@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ethers } from "ethers";
 import { money } from "../assets";
-import { CustomButton, FormField } from "../component";
+import { CustomButton, FormField, Loader } from "../component";
 import { checkIfImage } from "../utils";
 import { useStateContext } from "../context";
 export const CreateCampaign = () => {
@@ -46,7 +46,8 @@ export const CreateCampaign = () => {
   console.log(form);
   return (
     <div className="bg-[#1c1c24] dark:bg-slate-300 flex justify-center items-center rounded-[10px] sm:p-10 p-4 flex-col">
-      {isloading && "loader....."}
+      {isloading && <Loader />}
+
       <div>
         <h1 className="font-epilogue font-bold sm:text-[15px] text-[16px] leading-[28px] dark:text-black text-white">
           Start a Campaign
