@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 const useThemeSwitcher = () => {
   //creating the active theme
   const [theme, setTheme] = useState(localStorage.theme);
-  const activeTheme = theme === "dark" ? "light" : "dark";
+  const activeTheme = theme === "dark" ? "light" : "dark";       
 
   useEffect(() => {
     const root = window.document.documentElement;

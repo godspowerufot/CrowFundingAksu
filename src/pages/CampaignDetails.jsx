@@ -11,14 +11,8 @@ import { thirdweb } from "../assets";
 export const CampaignDetails = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-  const {
-    totalDonation,
-    donate,
-    getDonations,
-    addDonation,
-    contract,
-    address,
-  } = useStateContext();
+  const { donate, getDonations, addDonation, contract, address } =
+    useStateContext();
 
   const [isLoading, setIsLoading] = useState(false);
   const [amount, setAmount] = useState("");

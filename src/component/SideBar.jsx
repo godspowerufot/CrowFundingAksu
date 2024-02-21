@@ -7,10 +7,10 @@ import { navlinks } from "../constants";
 const Icon = ({ styles, name, imgUrl, isActive, disabled, handleClick }) => (
   <div
     className={`w-[48px] h-[48px] rounded-[10px] ${
-      isActive && isActive === name && "bg-[#2c2f32]"
+      isActive && isActive === name && " dark:bg-slate-500 bg-[#2c2f32]"
     } flex justify-center items-center ${
       !disabled && "cursor-pointer"
-    } ${styles} hover:bg-[#2c2f32]`}
+    } ${styles} hover:dark:bg-slate-500 hover:bg-[#2c2f32]`}
     onClick={handleClick}
   >
     {!isActive ? (
@@ -43,19 +43,22 @@ export const SideBar = () => {
   return (
     <div className="flex justify-between items-center flex-col sticky top-5 h-[93vh]">
       <Link to="/">
-        <Icon styles="w-[52px] h-[52px] bg-[#2c2f32]" imgUrl={logo} />
+        <Icon
+          styles="w-[52px] h-[52px] dark:bg-slate-300 bg-[#2c2f32]"
+          imgUrl={logo}
+        />
       </Link>
       {loading ? (
         <div className="animate-pulse rounded-[20px] h-[93vh]  w-[76px] py-4 mt-12 bg-[#1c1c24] ">
           {/* Skeleton loading effect */}
           <div className="flex flex-col justify-center items-center gap-3">
             {navlinks.map((link) => (
-              <div className="animate-pulse bg-[#2c2f32] w-[48px] h-[48px] rounded-[10px] "></div>
+              <div className="animate-pulse dark:bg-slate-300 bg-[#2c2f32] w-[48px] h-[48px] rounded-[10px] "></div>
             ))}
           </div>
         </div>
       ) : (
-        <div className="flex-1 flex flex-col justify-between items-center bg-[#1c1c24] rounded-[20px] w-[76px] py-4 mt-12">
+        <div className="flex-1 flex flex-col justify-between items-center dark:bg-slate-300 bg-[#1c1c24] rounded-[20px] w-[76px] py-4 mt-12">
           {/* Display loading skeleton if loading state is true */}
 
           <div className="flex flex-col justify-center items-center gap-3">
@@ -73,6 +76,7 @@ export const SideBar = () => {
               />
             ))}
           </div>
+
           <ThemeSwitcher />
         </div>
       )}

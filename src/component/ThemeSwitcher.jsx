@@ -3,7 +3,7 @@ export const ThemeSwitcher = () => {
   const [activeTheme, setTheme] = useThemeSwitcher();
   return (
     <div
-      className="absolute top-6 md:left-[7%] lg:left-[10%] xl:left-[20%] left-[2%] z-[9999] cursor-pointer backdrop-blur-xl rounded-full"
+      className="  md:left-[7%] lg:left-[10%] xl:left-[20%] left-[2%] z-[9999] cursor-pointer backdrop-blur-xl rounded-full"
       onClick={() => setTheme(activeTheme)}
     >
       {activeTheme === "light" ? (

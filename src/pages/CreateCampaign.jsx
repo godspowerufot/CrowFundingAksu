@@ -45,10 +45,10 @@ export const CreateCampaign = () => {
   };
   console.log(form);
   return (
-    <div className="bg-[#1c1c24] flex justify-center items-center rounded-[10px] sm:p-10 p-4 flex-col">
+    <div className="bg-[#1c1c24] dark:bg-slate-300 flex justify-center items-center rounded-[10px] sm:p-10 p-4 flex-col">
       {isloading && "loader....."}
       <div>
-        <h1 className="font-epilogue font-bold sm:text-[15px] text-[16px] leading-[28px] text-white">
+        <h1 className="font-epilogue font-bold sm:text-[15px] text-[16px] leading-[28px] dark:text-black text-white">
           Start a Campaign
         </h1>
       </div>
@@ -89,7 +89,7 @@ export const CreateCampaign = () => {
             alt="money"
             className="w-[40px] h-[40px] object-contain"
           />
-          <h4 className="font-epilogue font-bold text-[25px] text-white ml-[20px]">
+          <h4 className="font-epilogue font-bold text-[25px]  text-white ml-[20px]">
             You will get 100% of the raised amount
           </h4>
         </div>

@@ -11,7 +11,7 @@ export const StateContextProvider = ({ children }) => {
   const [totalDonation, setTotalDonation] = useState(0);
 
   const { contract, isLoading } = useContract(
-    "0x8b7951228651c11feb11b32a7af0caeca2a70451"
+    "0xcD388959AdE23191542FB9e2A73cd96420251DB5"
   );
   const { mutateAsync: createCampaign } = useContractWrite(
     contract,
@@ -22,7 +22,6 @@ export const StateContextProvider = ({ children }) => {
     "donateToCampaign"
   );
 
-  
   const call = async (_id, _donationAmount) => {
     try {
       const amountInWei = ethers.utils.parseEther(_donationAmount.toString());
@@ -74,7 +73,6 @@ export const StateContextProvider = ({ children }) => {
     return parsedCampaings;
   };
   //TotalDonations function
-
 
   //filter al campaigns to a specify function
   const getUserCampaigns = async () => {
