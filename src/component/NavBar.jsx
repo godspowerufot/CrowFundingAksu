@@ -6,6 +6,7 @@ import { logo, menu, search, thirdweb } from "../assets";
 import { navlinks } from "../constants";
 import { useAddress } from "@thirdweb-dev/react";
 import { ConnectWallet } from "@thirdweb-dev/react";
+import { ThemeSwitcher } from "./ThemeSwitcher.jsx";
 import { useStateContext } from "../context";
 // import { UseCrowFundingContext } from "../context";
 export const NavBar = () => {
@@ -67,6 +68,7 @@ export const NavBar = () => {
             className="w-[60%] h-[60%] object-contain"
           />
         </div>
+        <ThemeSwitcher />
 
         <img
           src={menu}
