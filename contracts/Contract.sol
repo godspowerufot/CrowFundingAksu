@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
-contract CrowFund {
+contract CrowFunder {
     struct Campaign {
         address owner;
         string title;
@@ -80,22 +80,25 @@ contract CrowFund {
 
         return allCampaigns;
     }
+ function withdrawFundsAndDeleteCampaign(uint256 _id, uint256 _withdrawalAmount) public payable {
+    Campaign storage campaign = campaigns[_id];
+  
+    require(
+        campaign.amountCollected > 0,
+        "No funds have been collected for this campaign."
+    );
 
-    function withdrawFundsAndDeleteCampaign(uint256 _id) public payable  {
-        Campaign storage campaign = campaigns[_id];
-   
-        require(
-            campaign.amountCollected > 0,
-            "No funds have been collected for this campaign."
-        );
-        
-        uint256 amountToWithdraw = campaign.amountCollected;
-        campaign.amountCollected = 0;
- if (true) {
-            payable(campaign.owner).call{value:amountToWithdraw};
-          
-        }
-        // Delete the campaign to free up storage and prevent further access
-        delete campaigns[_id];
+    require(
+        _withdrawalAmount <= campaign.amountCollected,
+        "Withdrawal amount exceeds the total collected funds."
+    );
+
+    if (true) {
+            payable(campaign.owner).call{value: _withdrawalAmount};
     }
+
+    campaign.amountCollected -= _withdrawalAmount;
+
+    // Delete the campaign to free up storage and prevent further access
+}
 }
