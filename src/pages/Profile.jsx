@@ -5,7 +5,6 @@ export const Profile = () => {
   const [isLoading, setisLoading] = useState(false);
   const [campaigns, setcampaigns] = useState([]);
   const { address, contract, getUserCampaigns } = useStateContext();
-  //the fetchallcampaigns is an async function that fetch another function call getcampaigns which fetches all the campaigns in the smart contract
   const fetchAllCampaigns = async () => {
     setisLoading(true);
     //data being fetch

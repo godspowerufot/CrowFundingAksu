@@ -78,6 +78,7 @@ export const FundCard = ({
             by <span className=" dark:text-black text-[#b2b3bd]">{owner}</span>
           </p>
         </div>
+        
         {/* add withdraw button that handles the function of withdrawal from here and send to the user wallwt but check if the user is the ne that owns the campaign */}
       </div>
     </div>
