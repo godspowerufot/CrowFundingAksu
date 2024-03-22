@@ -39,6 +39,13 @@ export const DisplayCampaigns = ({ title, isLoading, campaigns }) => {
       console.error("Contract call failure:", err);
     }
   };
+  //CHECKING IF DEADLINE HAVE PASS
+  const isDeadlinePassed = (campaign) => {
+    const currentDate = new Date();
+    const deadlineDate = new Date(campaign.deadline);
+    return currentDate > deadlineDate;
+  };
+
   return (
     <div>
       <h1 className="font-epilogue font-semibold text-[18px] dark:text-black text-white  text-left">
@@ -72,17 +79,18 @@ export const DisplayCampaigns = ({ title, isLoading, campaigns }) => {
                 handleClick={() => handleNavigate(campaign)}
               />
 
-              {campaign.owner === address && ( // Check if the current user is the owner
-                <CustomButton
-                  btnType="button"
-                  title="Withdraw"
-                  styles="w-[200px] bg-[#8c6dfd] ml-[30px] mb-[30px]"
-                  handleClick={() => {
-                    console.log(index);
-                    return handleWithdraw(index);
-                  }}
-                />
-              )}
+              {campaign.owner === address &&
+                isDeadlinePassed(campaign) && ( // Check if the current user is the owner and the deadline has passed
+                  <CustomButton
+                    btnType="button"
+                    title="Withdraw"
+                    styles="w-[200px] bg-[#8c6dfd] ml-[30px] mb-[30px]"
+                    handleClick={() => {
+                      console.log(index);
+                      return handleWithdraw(index);
+                    }}
+                  />
+                )}
             </div>
           ))}
       </div>
