@@ -7,3 +7,4 @@ export * from "./FundCard";
 export * from "./CountBox";
 export * from "./Loader";
 export * from "./ThemeSwitcher";
+export * from "./WithdrawalModel";

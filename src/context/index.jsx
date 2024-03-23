@@ -8,10 +8,9 @@ const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
   const address = useAddress();
-  const [totalDonation, setTotalDonation] = useState(0);
 
   const { contract, isLoading } = useContract(
-    "0xcD388959AdE23191542FB9e2A73cd96420251DB5"
+    "0x9046AcfabdBfdBFeB503e7386FD88f929B581091"
   );
   const { mutateAsync: createCampaign } = useContractWrite(
     contract,
@@ -21,17 +20,10 @@ export const StateContextProvider = ({ children }) => {
     contract,
     "donateToCampaign"
   );
-
-  const call = async (_id, _donationAmount) => {
-    try {
-      const amountInWei = ethers.utils.parseEther(_donationAmount.toString());
-
-      const data = await donateToCampaign({ args: [_id, amountInWei] });
-      console.info("contract call successs", data);
-    } catch (err) {
-      console.error("contract call failure", err);
-    }
-  };
+  const { mutateAsync: withdrawFundsAndDeleteCampaign } = useContractWrite(
+    contract,
+    "withdrawFundsAndDeleteCampaign"
+  );
 
   const publishCampaign = async (form) => {
     try {
@@ -62,9 +54,10 @@ export const StateContextProvider = ({ children }) => {
       description: campaign.description,
       target: ethers.utils.formatEther(campaign.target.toString()),
       deadline: campaign.deadline.toNumber(),
-      amountCollected: parseFloat(
-        ethers.utils.formatEther(campaign.amountCollected.toNumber())
+      amountCollected: ethers.utils.formatEther(
+        campaign.amountCollected.toString()
       ),
+
       image: campaign.image,
       pId: i,
     }));
@@ -85,18 +78,43 @@ export const StateContextProvider = ({ children }) => {
 
   const getDonations = async (pId) => {
     const donations = await contract.call("getDonators", [pId]);
-    const numberOfDonations = donations[0].length;
+    const numberOfDonations = donations[0].length; // Use the length of the donators array
 
     const parsedDonations = [];
 
     for (let i = 0; i < numberOfDonations; i++) {
-      parsedDonations.push({
-        donator: donations[0][i],
-        donation: ethers.utils.formatEther(donations[1][i].toString()),
-      });
+      // Check if donations[1][i] is defined before accessing its properties
+      if (donations[1][i] !== undefined) {
+        parsedDonations.push({
+          donator: donations[0][i],
+          donation: ethers.utils.formatEther(donations[1][i].toString()),
+        });
+      }
     }
-
+    console.log(parsedDonations);
     return parsedDonations;
+  };
+  const call = async (_id, _donationAmount) => {
+    try {
+      const amountInWei = ethers.utils.parseEther(_donationAmount.toString());
+
+      const data = await donateToCampaign({ args: [_id, amountInWei] });
+      console.info("contract call successs", data);
+    } catch (err) {
+      console.error("contract call failure", err);
+    }
+  };
+
+  const withdrawDelete = async (_id, _withdrawalAmount) => {
+    try {
+      const data = await withdrawFundsAndDeleteCampaign({
+        args: [_id, _withdrawalAmount],
+      });
+
+      console.info("contract call successs", data);
+    } catch (err) {
+      console.error("contract call failure", err);
+    }
   };
 
   return (
@@ -109,6 +127,7 @@ export const StateContextProvider = ({ children }) => {
         donate: call,
         createCampaign: publishCampaign,
         getDonations,
+        withdrawDelete,
       }}
     >
       {children}
