@@ -165,7 +165,7 @@ export const CampaignDetails = () => {
                 type="number"
                 placeholder="ETH 0.1"
                 step="0.01"
-                className="w-full py-[10px] sm:px-[20px] px-[15px] outline-none border-[1px] border-[#3a3a43] bg-transparent font-epilogue text-white text-[18px] leading-[30px] placeholder:text-[#4b5264] rounded-[10px]"
+                className="w-full py-[10px] sm:px-[20px] px-[15px] outline-none border-[1px] border-[#3a3a43] bg-transparent font-epilogue text-white text-[18px] leading-[30px] placeholder:text-[#4b5264] rounded-[5px]"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
               />

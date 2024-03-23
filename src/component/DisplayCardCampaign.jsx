@@ -1,49 +1,40 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loader, withdraw } from "../assets";
+import { loader } from "../assets";
 import { CustomButton } from "./CustomButton";
+import { WithdrawModal } from "./WithdrawalModel.jsx";
 import { FundCard } from "./FundCard";
-import { ethers } from "ethers";
 import { useStateContext } from "../context";
-
+import { ethers } from "ethers";
 export const DisplayCampaigns = ({ title, isLoading, campaigns }) => {
   const navigate = useNavigate();
   const { withdrawDelete, address } = useStateContext(); // Add withdraw function from context
 
+  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
+  const [selectedCampaignId, setSelectedCampaignId] = useState("");
+
   const handleNavigate = (campaign) => {
-    navigate(`/profiles/${campaign.title}`, { state: campaign });
+    navigate(`/campaign-details/${campaign.title}`, { state: campaign });
   };
 
-  const handleWithdraw = async (id) => {
+  const handleWithdraw = async (id, amount) => {
     try {
-      // Access owner information from context (assuming it's available)
-
-      // Get the withdrawal amount as a number
-      const amountString = prompt("Enter withdrawal amount (must be a number)");
-      const amountNumber = parseFloat(amountString);
-
-      // Validate the amount
-      if (isNaN(amountNumber) || amountNumber <= 0) {
-        console.error("Invalid withdrawal amount entered.");
-        return;
-      }
-
-      // Convert amount to BigNumber
-      const amountInWei = ethers.utils.parseEther(amountNumber.toString());
-
-      // Check if the current user is the owner
-
-      // Access campaign.owner from props or context
-      await withdrawDelete(id, amountInWei); // Use the context function
-    } catch (err) {
-      console.error("Contract call failure:", err);
+      await withdrawDelete(id, ethers.utils.parseEther(amount.toString()));
+      // Refresh campaign list
+      console.log(id);
+    } catch (error) {
+      console.error("Error withdrawing funds:", error);
     }
   };
-  //CHECKING IF DEADLINE HAVE PASS
-  const isDeadlinePassed = (campaign) => {
-    const currentDate = new Date();
-    const deadlineDate = new Date(campaign.deadline);
-    return currentDate > deadlineDate;
+
+  const openWithdrawModal = (id) => {
+    setSelectedCampaignId(id);
+    setShowWithdrawModal(true);
+  };
+
+  const closeWithdrawModal = () => {
+    setShowWithdrawModal(false);
+    setSelectedCampaignId("");
   };
 
   return (
@@ -72,28 +63,31 @@ export const DisplayCampaigns = ({ title, isLoading, campaigns }) => {
           campaigns.map((campaign, index) => (
             <div
               className="sm:w-[288px] w-full rounded-[15px] dark:bg-slate-300 bg-[#1c1c24] cursor-pointer"
-              key={index}
+              key={campaign.id}
             >
               <FundCard
                 {...campaign}
                 handleClick={() => handleNavigate(campaign)}
               />
-
-              {campaign.owner === address &&
-                isDeadlinePassed(campaign) && ( // Check if the current user is the owner and the deadline has passed
-                  <CustomButton
-                    btnType="button"
-                    title="Withdraw"
-                    styles="w-[200px] bg-[#8c6dfd] ml-[30px] mb-[30px]"
-                    handleClick={() => {
-                      console.log(index);
-                      return handleWithdraw(index);
-                    }}
-                  />
-                )}
+              {campaign.owner === address && (
+                <CustomButton
+                  btnType="button"
+                  title="Withdraw"
+                  styles="w-[200px] bg-[#8c6dfd] ml-[30px] mb-[30px]"
+                  handleClick={() => openWithdrawModal(index)}
+                />
+              )}
             </div>
           ))}
       </div>
+      {showWithdrawModal && (
+        <WithdrawModal
+          handleWithdraw={(amount) =>
+            handleWithdraw(selectedCampaignId, amount)
+          }
+          handleClose={closeWithdrawModal}
+        />
+      )}
     </div>
   );
 };
